@@ -2,19 +2,29 @@ import { TitlePage } from "../../../shared/components/TitlePage"
 import { CardStatsList } from "../components/CardStatsList"
 import { DeviceTable } from "../components/DeviceTable"
 import { useDashboard } from "../hooks/useDashboard"
+import { useDevices } from "../hooks/useDevices"
 
 export const DashboardPage = () => {
-    const { dashboardData, nextPage, prevPage } = useDashboard()
-    const { devices, stats, pagination } = dashboardData || { devices: null, stats: null, pagination: null }
-
-    console.log(devices)
-    console.log(pagination)
+    const { dashboardStats, isLoadingDashboardStats, isErrorDashboardStats } = useDashboard()
+    const { devices, isLoadingDevices, isErrorDevices, handleSearch, handleStatusId, nextPage, prevPage } = useDevices()
 
     return <div className="flex flex-col gap-8">
         <TitlePage title="Dashboard TI" description="Estado del inventario de dispositivos." />
-        {
-            stats ? <CardStatsList stats={stats} /> : <span>Loading...</span>
-        }
-        <DeviceTable devices={devices} pagination={pagination} nextPage={nextPage} prevPage={prevPage} />
+        <CardStatsList
+            dashboardStats={dashboardStats}
+            isLoadingDashboardStats={isLoadingDashboardStats}
+            isErrorDashboardStats={isErrorDashboardStats}
+        />
+        <DeviceTable
+            devices={devices}
+            isLoadingDevices={isLoadingDevices}
+            isErrorDevices={isErrorDevices}
+            handleSearch={handleSearch}
+            handleStatusId={handleStatusId}
+            nextPage={nextPage}
+            prevPage={prevPage}
+        />
+
+
     </div>
 }
