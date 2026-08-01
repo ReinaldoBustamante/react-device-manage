@@ -1,27 +1,35 @@
 
 import { tableHeaders, tableSelectOptions } from "../constants"
-import type { DevicePaginated } from "../types/Device"
 import { Table } from "../../../shared/components/Table"
 import { TableSkeleton } from "../../../shared/components/TableSkeleton"
 import { Select } from "../../../shared/components/Select"
+import type { DeviceResponse } from "../types"
 
-export const DeviceTable = ({
-    devices,
-    isLoadingDevices,
-    isErrorDevices,
-    handleSearch,
-    handleStatusId,
-    nextPage,
-    prevPage
-}: {
-    devices: DevicePaginated,
+interface DeviceTableProps {
+    data: DeviceResponse | undefined,
     isLoadingDevices: boolean,
     isErrorDevices: boolean,
     handleSearch: (value: string | null) => void,
     handleStatusId: (id: number | null) => void,
     nextPage: () => void,
     prevPage: () => void
-}) => {
+}
+
+export const DeviceTable = ({
+    data,
+    isLoadingDevices,
+    isErrorDevices,
+    handleSearch,
+    handleStatusId,
+    nextPage,
+    prevPage
+}: DeviceTableProps) => {
+    const pagination = data?.pagination;
+
+    const offset = pagination?.offset ?? 0;
+    const limit = pagination?.limit ?? 1;
+    const total = pagination?.total ?? 0;
+
     return <div className="px-4 py-6 border border-gray-300 rounded-md overflow-x-auto flex flex-col gap-4">
         <div className="flex gap-2">
             <input type="text" className="px-4 py-2 border flex-6 rounded border-gray-300" placeholder="Buscar" onChange={(e) => handleSearch(e.target.value)} />
@@ -40,14 +48,14 @@ export const DeviceTable = ({
                 </tr>
             )}
 
-            {devices?.devices.length === 0 && (
+            {data?.devices.length === 0 && (
                 <tr>
                     <td colSpan={7} className="text-center py-4">No se encontraron dispositivos</td>
                 </tr>
             )}
 
             {
-                devices?.devices.map((device) => (
+                data?.devices.map((device) => (
                     <tr key={device.id} className="border-b border-gray-200">
                         <td className="py-3 px-4">{device.brand}</td>
                         <td className="py-3 px-4">{device.model}</td>
@@ -60,12 +68,28 @@ export const DeviceTable = ({
                 ))
             }
         </Table>
-        <div className="flex justify-between">
-            <p>{devices?.pagination.total || 0} resultados</p>
-            <div className="flex items-center gap-4">
-                <button onClick={prevPage} disabled={devices?.pagination.offset === 0} className="disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer px-2 py-1 rounded bg-gray-200">Previa</button>
-                <span>Página {(devices?.pagination.offset / devices?.pagination.limit) + 1 || 1} de {Math.ceil(devices?.pagination.total / devices?.pagination.limit) || 1}</span>
-                <button onClick={nextPage} disabled={devices?.pagination.offset + devices?.pagination.limit >= devices?.pagination.total} className="disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer px-2 py-1 rounded bg-gray-200">Siguiente</button>
+        <div className="flex justify-between items-center">
+            <p>{total} resultados</p>
+            <div className="flex gap-4 items-center">
+                <button
+                    onClick={prevPage}
+                    disabled={offset === 0}
+                    className="cursor-pointer"
+                >
+                    Previa
+                </button>
+
+                <span>
+                    Página {Math.floor(offset / limit) + 1} de {Math.max(1, Math.ceil(total / limit))}
+                </span>
+
+                <button
+                    onClick={nextPage}
+                    disabled={offset + limit >= total}
+                    className="cursor-pointer"
+                >
+                    Siguiente
+                </button>
             </div>
         </div>
     </div>

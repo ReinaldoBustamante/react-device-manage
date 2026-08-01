@@ -1,24 +1,16 @@
 import { statsName } from "../constants"
 import { CardStat } from "./CardStat"
+import type { Stats } from "../types"
 
-type stats = {
-    assigned: number | string
-    available: number | string
-    in_repair: number | string
-    losts: number | string
-    retired: number | string
-    total: number | string
-}
 
-export const CardStatsList = ({
-    dashboardStats,
-    isLoadingDashboardStats,
-    isErrorDashboardStats
-}: {
-    dashboardStats: stats | null,
+interface CardStatsListProps {
+    dashboardStats: Stats | undefined,
     isLoadingDashboardStats: boolean,
     isErrorDashboardStats: boolean
-}) => {
+}
+
+export const CardStatsList = ({ dashboardStats, isLoadingDashboardStats, isErrorDashboardStats }: CardStatsListProps) => {
+
     if (isLoadingDashboardStats) return <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {
             Object.keys(statsName).map(name => <CardStat key={name} label={name} value={"-"} />)
@@ -33,7 +25,7 @@ export const CardStatsList = ({
 
     return <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {
-            Object.keys(statsName).map(name => <CardStat key={name} label={name} value={dashboardStats[name]} />)
+            dashboardStats && Object.keys(statsName).map(name => <CardStat key={name} label={name} value={dashboardStats[name as keyof Stats]} />)
         }
     </div>
 

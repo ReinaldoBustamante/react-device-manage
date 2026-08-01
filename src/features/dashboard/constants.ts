@@ -19,8 +19,9 @@ export const statsName = {
 }
 
 export const tableHeaders = ['Marca', 'Modelo', 'N° Serie', 'Tipo', 'Estado', 'Fecha de compra', 'Asignado a']
+
 export const tableSelectOptions = [
-    { value: null, label: 'Todos los estados' },
+    { value: undefined, label: 'Todos los estados' },
     { value: 1, label: 'Activos' },
     { value: 2, label: 'Asignados' },
     { value: 3, label: 'En reparación' },

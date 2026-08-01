@@ -2,7 +2,7 @@
 interface SelectProps {
     className: string,
     options: {
-        value: number | string | null,
+        value: number | string | undefined,
         label: string
     }[],
     onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void

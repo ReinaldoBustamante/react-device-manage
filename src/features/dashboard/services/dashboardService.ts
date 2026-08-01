@@ -1,8 +1,11 @@
+import type { DeviceResponse, Stats } from "../types";
+
+
 export const dashboardService = () => {
 
     const getDashboardStats = async () => {
         const response = await fetch(`http://18.230.198.130:8000/api/v1/dashboard/stats`)
-        const data = await response.json()
+        const data: Stats = await response.json()
         return data
     }
 
@@ -11,7 +14,7 @@ export const dashboardService = () => {
         if (search) query += `&search=${search}`
         if (status_id) query += `&status_id=${status_id}`
         const response = await fetch(`http://18.230.198.130:8000/api/v1/dashboard/devices?${query}`)
-        const data = await response.json()
+        const data: DeviceResponse = await response.json()
         return data
     }
 
