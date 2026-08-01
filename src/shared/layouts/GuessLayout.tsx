@@ -4,7 +4,7 @@ import { Header } from "../components/Header/Header"
 export const GuessLayout = () => {
     return <div>
         <Header />
-        <main className="py-6 px-12">
+        <main className="py-6 px-24">
             <Outlet />
         </main>
     </div>

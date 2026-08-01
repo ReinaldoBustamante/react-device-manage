@@ -30,7 +30,7 @@ export const DeviceTable = ({
     const limit = pagination?.limit ?? 1;
     const total = pagination?.total ?? 0;
 
-    return <div className="px-4 py-6 border border-gray-300 rounded-md overflow-x-auto flex flex-col gap-4">
+    return <div className="px-4 py-6 border border-gray-300 rounded-md overflow-x-auto flex flex-col gap-4 bg-white">
         <div className="flex gap-2">
             <input type="text" className="px-4 py-2 border flex-6 rounded border-gray-300" placeholder="Buscar" onChange={(e) => handleSearch(e.target.value)} />
             <Select

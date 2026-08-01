@@ -9,6 +9,15 @@ export const statsIcons = {
     total: CiGrid41,
 };
 
+export const statsColors = {
+    assigned: "bg-[#FFDAA6] text-[#E66F00]",
+    available: "bg-[#D0FAE5] text-[#007A55]",
+    in_repair: "bg-[#FFF3CD] text-[#9D5422]",
+    losts: "bg-[#FFE4E6] text-[#B91C1C]",
+    retired: "bg-[#D9D9D9] text-[#374151]",
+    total: "bg-[#E6F3F8] text-[#0085B9]",
+}
+
 export const statsName = {
     assigned: "Asignados",
     available: "Disponibles",

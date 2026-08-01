@@ -6,8 +6,8 @@ import { useNavigate } from "react-router"
 export const Header = () => {
     const navigate = useNavigate()
 
-    return <header className="w-full h-[7vh] px-12 border-b border-gray-200 flex justify-between items-center">
+    return <header className="w-full h-[10vh] px-24 border-b border-[#D5E0E7] flex justify-between items-center bg-white">
         <Logo />
-        <Button text="Iniciar sesión" className="bg-blue-500 text-white" icon={CiLogin} onClick={() => navigate('/auth')} />
+        <Button text="Iniciar sesión" className="bg-[#0085B9] text-white hover:bg-[#0897cc]" icon={CiLogin} onClick={() => navigate('/auth')} />
     </header>
 }
