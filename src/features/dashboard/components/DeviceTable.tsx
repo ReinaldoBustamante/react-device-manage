@@ -1,9 +1,10 @@
 
-import { tableHeaders, tableSelectOptions } from "../constants"
+import { deviceStatus, deviceType, tableHeaders, tableSelectOptions, statusColor } from "../constants"
 import { Table } from "../../../shared/components/Table"
 import { TableSkeleton } from "../../../shared/components/TableSkeleton"
 import { Select } from "../../../shared/components/Select"
 import type { DeviceResponse } from "../types"
+import { GrFormNext, GrFormPrevious } from "react-icons/gr"
 
 interface DeviceTableProps {
     data: DeviceResponse | undefined,
@@ -30,9 +31,10 @@ export const DeviceTable = ({
     const limit = pagination?.limit ?? 1;
     const total = pagination?.total ?? 0;
 
+
     return <div className="px-4 py-6 border border-gray-300 rounded-md overflow-x-auto flex flex-col gap-4 bg-white">
         <div className="flex gap-2">
-            <input type="text" className="px-4 py-2 border flex-6 rounded border-gray-300" placeholder="Buscar" onChange={(e) => handleSearch(e.target.value)} />
+            <input type="text" className="px-4 py-2 border flex-6 rounded border-gray-300" placeholder="Buscar por marca, modelo o serie" onChange={(e) => handleSearch(e.target.value)} />
             <Select
                 options={tableSelectOptions}
                 onChange={(e) => handleStatusId(Number(e.target.value))}
@@ -57,38 +59,42 @@ export const DeviceTable = ({
             {
                 data?.devices.map((device) => (
                     <tr key={device.id} className="border-b border-gray-200">
-                        <td className="py-3 px-4">{device.brand}</td>
-                        <td className="py-3 px-4">{device.model}</td>
-                        <td className="py-3 px-4">{device.serial_number}</td>
-                        <td className="py-3 px-4">{device.type_id}</td>
-                        <td className="py-3 px-4">{device.status_id}</td>
-                        <td className="py-3 px-4">{device.buy_date}</td>
-                        <td className="py-3 px-4">{device.user_id || "Sin asignar"}</td>
+                        <td className="py-3 px-4 text-gray-700">{device.brand}</td>
+                        <td className="py-3 px-4 text-gray-700">{device.model}</td>
+                        <td className="py-3 px-4 text-gray-700">{device.serial_number}</td>
+                        <td className="py-3 px-4 text-gray-700">{deviceType[device.type_id as keyof typeof deviceType]}</td>
+                        <td className="py-3 px-4 text-gray-700">
+                            <span className={`font-semibold px-3 text-sm py-1 rounded-full inline ${statusColor[device.status_id as keyof typeof statusColor]}`}>
+                                {deviceStatus[device.status_id as keyof typeof deviceStatus]}
+                            </span>
+                        </td>
+                        <td className="py-3 px-4 text-gray-700">{device.buy_date}</td>
+                        <td className="py-3 px-4 text-gray-700">{device.user_id || "Sin asignar"}</td>
                     </tr>
                 ))
             }
         </Table>
-        <div className="flex justify-between items-center">
-            <p>{total} resultados</p>
+        <div className="flex justify-between items-center py-1">
+            <p className="text-gray-600 text-sm">Mostrando {offset + 1} - {offset + limit >= total ? total : offset + limit} de {total} resultados</p>
             <div className="flex gap-4 items-center">
                 <button
                     onClick={prevPage}
                     disabled={offset === 0}
-                    className="cursor-pointer"
+                    className="cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed px-3 py-2 border rounded-md border-[#D5DFE7] shadow-md"
                 >
-                    Previa
+                    <GrFormPrevious className="text-xl text-gray-600" />
                 </button>
 
-                <span>
+                <span className="font-semibold text-sm">
                     Página {Math.floor(offset / limit) + 1} de {Math.max(1, Math.ceil(total / limit))}
                 </span>
 
                 <button
                     onClick={nextPage}
                     disabled={offset + limit >= total}
-                    className="cursor-pointer"
+                    className="cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed px-3 py-2 border rounded-md border-[#D5DFE7] shadow-md"
                 >
-                    Siguiente
+                    <GrFormNext className="text-xl text-gray-600" />
                 </button>
             </div>
         </div>

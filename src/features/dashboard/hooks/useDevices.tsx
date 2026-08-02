@@ -1,20 +1,28 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query"
 import { dashboardService } from "../services/dashboardService"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export const useDevices = () => {
     const [offset, setOffset] = useState(0)
     const [search, setSearch] = useState<string | null>(null)
+    const [searchInput, setSearchInput] = useState<string | null>(null)
     const [statusId, setStatusId] = useState<number | null>(null)
 
+    useEffect(() => {
+        console.log(search)
+        const timeout = setTimeout(() => {
+            setSearch(searchInput)
+            setOffset(0)
+        }, 500)
+        return () => clearTimeout(timeout)
+    }, [searchInput])
 
-    const { data: devices, isLoading: isLoadingDevices, isError: isErrorDevices } = useQuery({
+    const { data: devices, isLoading: isLoadingDevices, isError: isErrorDevices, isFetching: isFetchingDevices } = useQuery({
         queryKey: ["dashboardDevices", offset, search, statusId],
         queryFn: () => dashboardService().getDashboardDevices(10, offset, search, statusId),
         staleTime: 5 * 1000 * 60,
         placeholderData: keepPreviousData
     })
-
 
     const handleStatusId = (id: number | null) => {
         setStatusId(id)
@@ -22,8 +30,7 @@ export const useDevices = () => {
     }
 
     const handleSearch = (value: string | null) => {
-        setSearch(value)
-        setOffset(0)
+        setSearchInput(value)
     }
 
     const nextPage = () => {
@@ -38,6 +45,7 @@ export const useDevices = () => {
         devices,
         isLoadingDevices,
         isErrorDevices,
+        isFetchingDevices,
         handleSearch,
         handleStatusId,
         nextPage,
