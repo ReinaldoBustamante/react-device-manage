@@ -6,7 +6,7 @@ interface TableProps {
 export const Table = ({ headers, children }: TableProps) => {
     return (
         <div className="border border-[#D5DFE7] rounded-md overflow-hidden overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full table-fixed">
                 <thead>
                     <tr className="border-b border-[#D5DFE7] bg-gray-100">
                         {headers.map(header => (
