@@ -11,6 +11,6 @@ interface SelectProps {
 
 export const Select = ({ className, options, onChange }: SelectProps) => {
     return <select className={className} onChange={onChange}>
-        {options.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
+        {options.map(option => <option key={option.label} value={option.value}>{option.label}</option>)}
     </select>
 }
