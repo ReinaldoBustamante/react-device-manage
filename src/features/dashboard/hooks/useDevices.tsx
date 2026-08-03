@@ -9,7 +9,6 @@ export const useDevices = () => {
     const [statusId, setStatusId] = useState<number | null>(null)
 
     useEffect(() => {
-        console.log(search)
         const timeout = setTimeout(() => {
             setSearch(searchInput)
             setOffset(0)

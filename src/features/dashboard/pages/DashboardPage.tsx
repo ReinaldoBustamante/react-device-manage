@@ -7,7 +7,6 @@ import { useDevices } from "../hooks/useDevices"
 export const DashboardPage = () => {
     const { dashboardStats, isLoadingDashboardStats, isErrorDashboardStats } = useDashboard()
     const { devices, isLoadingDevices, isErrorDevices, handleSearch, handleStatusId, nextPage, prevPage } = useDevices()
-    console.log(devices)
     return <div className="flex flex-col gap-8">
         <TitlePage title="Dashboard TI" description="Estado del inventario de dispositivos." />
         <CardStatsList

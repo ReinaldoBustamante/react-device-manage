@@ -51,7 +51,7 @@ export const deviceType = {
 }
 
 export const deviceStatus = {
-    1: 'Disponible',
+    1: 'Activos',
     2: 'Asignado',
     3: 'En reparación',
     4: 'Extraviado',
