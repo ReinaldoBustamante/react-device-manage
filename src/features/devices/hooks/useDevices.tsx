@@ -1,6 +1,6 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query"
-import { dashboardService } from "../services/dashboardService"
 import { useEffect, useState } from "react"
+import { deviceService } from "../services/deviceService"
 
 export const useDevices = () => {
     const [offset, setOffset] = useState(0)
@@ -16,9 +16,9 @@ export const useDevices = () => {
         return () => clearTimeout(timeout)
     }, [searchInput])
 
-    const { data: devices, isLoading: isLoadingDevices, isError: isErrorDevices, isFetching: isFetchingDevices } = useQuery({
-        queryKey: ["dashboardDevices", offset, search, statusId],
-        queryFn: () => dashboardService().getDashboardDevices(10, offset, search, statusId),
+    const { data, isLoading: isLoadingDevices, isError: isErrorDevices, isFetching: isFetchingDevices } = useQuery({
+        queryKey: ["devices", offset, search, statusId],
+        queryFn: () => deviceService().getDevices(10, offset, search, statusId),
         staleTime: 5 * 1000 * 60,
         placeholderData: keepPreviousData
     })
@@ -41,7 +41,7 @@ export const useDevices = () => {
     }
 
     return {
-        devices,
+        data,
         isLoadingDevices,
         isErrorDevices,
         isFetchingDevices,
