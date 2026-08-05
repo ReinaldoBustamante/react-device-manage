@@ -40,8 +40,7 @@ export const DeviceTable = ({
             <input type="text" className="px-4 py-2 border flex-6 rounded border-gray-300" placeholder="Buscar por marca, modelo o serie" onChange={(e) => handleSearch(e.target.value)} />
             <Select
                 options={tableSelectOptions}
-                onChange={(e) => handleStatusId(Number(e.target.value))}
-                className="flex-1 appearance-none rounded border border-gray-300 bg-white py-2 pl-3 pr-10 text-sm text-gray-800"
+                onChange={handleStatusId}
             />
         </div>
         <Table headers={headers}>

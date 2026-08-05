@@ -6,12 +6,16 @@ import { Modal } from "../../../shared/components/Modal"
 import { useModal } from "../../../shared/hooks/useModal"
 import { useState } from "react"
 import type { Device } from "../types"
+import { useTypeDevice } from "../hooks/useTypeDevice"
+import { DeviceForm } from "../components/DeviceForm"
 
 
 export const DevicePage = () => {
     const { data, nextPage, prevPage, isLoadingDevices, isErrorDevices, handleSearch, handleStatusId } = useDevices()
+    const { typeDevicesResponse, isLoadingTypeDevice } = useTypeDevice()
     const { isOpen, handleOpenModal, handleCloseModal } = useModal()
     const [modalType, setModalType] = useState<"create" | "edit">("create")
+    const [deviceSelected, setDeviceSelected] = useState<Device | null>(null)
 
     const handleCreate = () => {
         setModalType("create")
@@ -20,7 +24,7 @@ export const DevicePage = () => {
 
     const handleEdit = (device: Device) => {
         setModalType("edit")
-        console.log(device)
+        setDeviceSelected(device)
         handleOpenModal()
     }
 
@@ -47,8 +51,17 @@ export const DevicePage = () => {
         <Modal open={isOpen} onClose={handleCloseModal} title={title}>
             {
                 modalType === "create"
-                    ? <p>Formulario para crear dispositivo</p>
-                    : <p>Formulario para editar dispositivo</p>
+                    ? <DeviceForm
+                        typeDevicesResponse={typeDevicesResponse}
+                        isLoadingTypeDevice={isLoadingTypeDevice}
+                        handleCloseModal={handleCloseModal}
+                    />
+                    : <DeviceForm
+                        typeDevicesResponse={typeDevicesResponse}
+                        isLoadingTypeDevice={isLoadingTypeDevice}
+                        handleCloseModal={handleCloseModal}
+                        defaultValues={deviceSelected}
+                    />
             }
         </Modal>
     </div>

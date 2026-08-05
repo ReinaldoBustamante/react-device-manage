@@ -1,16 +1,21 @@
 
 interface SelectProps {
-    className: string,
     options: {
         value: number | string | undefined,
         label: string
     }[],
-    onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
+    onChange: (value: number | null) => void
+    label?: string,
+    disabled?: boolean
+    value?: number
 }
 
 
-export const Select = ({ className, options, onChange }: SelectProps) => {
-    return <select className={className} onChange={onChange}>
-        {options.map(option => <option key={option.label} value={option.value}>{option.label}</option>)}
-    </select>
+export const Select = ({ label, options, onChange, disabled = false, value }: SelectProps) => {
+    return <div className="flex flex-col flex-1">
+        <label htmlFor={label}>{label}</label>
+        <select disabled={disabled} id={label} className="appearance-none rounded border border-gray-300 bg-white py-2 pl-3 pr-10 text-sm text-gray-800" onChange={(e) => onChange(Number(e.target.value))} defaultValue={value}>
+            {options.map(option => <option key={option.label} value={option.value}>{option.label}</option>)}
+        </select>
+    </div>
 }
