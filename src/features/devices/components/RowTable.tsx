@@ -5,10 +5,9 @@ import { ActionButtons } from "./ActionButtons"
 export interface RowTableProps {
     device: Device,
     showActions: boolean,
-    onEdit?: (device: Device) => void
 }
 
-export const RowTable = ({ device, showActions, onEdit }: RowTableProps) => {
+export const RowTable = ({ device, showActions }: RowTableProps) => {
     return <tr key={device.id} className="border-b border-gray-200">
         <td className="py-3 px-4 text-gray-700">{device.brand}</td>
         <td className="py-3 px-4 text-gray-700">{device.model}</td>
@@ -21,6 +20,6 @@ export const RowTable = ({ device, showActions, onEdit }: RowTableProps) => {
         </td>
         <td className="py-3 px-4 text-gray-700">{device.buy_date}</td>
         <td className="py-3 px-4 text-gray-700">{device.user_id || "Sin asignar"}</td>
-        {showActions && <ActionButtons onEdit={() => onEdit?.(device)} />}
+        {showActions && <ActionButtons device={device} />}
     </tr>
 }

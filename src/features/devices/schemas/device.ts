@@ -5,5 +5,8 @@ export const DeviceSchema = z.object({
     model: z.string().min(1, "El modelo es requerido"),
     serial_number: z.string().min(1, "El numero de serie es requerido"),
     type_id: z.number().min(1, "El tipo es requerido"),
-    status_id: z.number().min(1, "El estado es requerido")
+    buy_date: z
+        .string()
+        .transform((value) => `${value}T00:00:00.000Z`)
+        .pipe(z.iso.datetime())
 })

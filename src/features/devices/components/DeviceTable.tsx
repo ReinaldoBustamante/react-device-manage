@@ -16,7 +16,6 @@ interface DeviceTableProps {
     handleStatusId: (id: number | null) => void,
     nextPage: () => void,
     prevPage: () => void
-    onEdit?: (device: Device) => void,
 }
 
 export const DeviceTable = ({
@@ -28,7 +27,6 @@ export const DeviceTable = ({
     handleStatusId,
     nextPage,
     prevPage,
-    onEdit
 }: DeviceTableProps) => {
     const columns = showActions ? 8 : 7;
     const headers = showActions
@@ -47,7 +45,7 @@ export const DeviceTable = ({
             {isLoadingDevices && <TableSkeleton rows={10} columns={columns} />}
             {isErrorDevices && <tr><td colSpan={columns}>No se pudo conectar con el servidor</td></tr>}
             {data?.devices.length === 0 && <tr><td colSpan={columns} className="text-center py-4">No se encontraron dispositivos</td></tr>}
-            {data?.devices.map((device) => <RowTable device={device} showActions={showActions} onEdit={onEdit} />)}
+            {data?.devices.map((device) => <RowTable device={device} showActions={showActions} />)}
         </Table>
         <TablePagination pagination={data?.pagination} nextPage={nextPage} prevPage={prevPage} />
     </div>

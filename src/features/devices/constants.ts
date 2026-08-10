@@ -29,6 +29,9 @@ export const deviceStatus = {
     5: 'Retirado',
 }
 
+export const deviceTypeOptions = Object.entries(deviceType).map(([key, value]) => ({ value: Number(key), label: value }))
+export const deviceStatusOptions = Object.entries(deviceStatus).map(([key, value]) => ({ value: Number(key), label: value }))
+
 export const statusColor = {
     1: 'bg-[#D0FAE5] text-[#006045] border border-[#7DDEB2]',
     2: 'bg-[#D6EAF8] text-[#0B5CAD] border border-[#8EC5F4]',

@@ -5,7 +5,7 @@ export const deviceService = () => {
         let query = `limit=${limit}&offset=${offset}`
         if (search) query += `&search=${search}`
         if (status_id) query += `&status_id=${status_id}`
-        const response = await fetch(`http://18.230.198.130:8000/api/v1/dashboard/devices?${query}`)
+        const response = await fetch(`http://54.94.1.101:8000/api/v1/devices?${query}`)
         const data: DeviceResponse = await response.json()
         return data
     }

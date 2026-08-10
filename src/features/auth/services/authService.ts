@@ -5,7 +5,7 @@ export const authService = () => {
 
     const login = async (data: LoginForm) => {
         try {
-            const response = await axios.post("http://18.230.198.130:8000/api/v1/auth/login", data, {
+            const response = await axios.post("http://54.94.1.101:8000/api/v1/auth/login", data, {
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
                 }
