@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import type { AxiosError } from "axios"
 import { Link, Navigate } from "react-router"
 import { useForm } from "react-hook-form"
@@ -11,13 +10,11 @@ import { loginSchema } from "../schemas/auth"
 import { authLogin } from "../services/authLogin"
 import { useAuthStore } from "../store/auth"
 import type { LoginForm } from "../types/auth"
+import { usePageTitle } from "../../../shared/hooks/usePageTitle"
 
 
 export const AuthPage = () => {
-    useEffect(() => {
-        document.title = "Iniciar sesión - Device Management"
-    }, [])
-
+    usePageTitle('Iniciar sesión - Device Management')
     const {
         register,
         handleSubmit,
