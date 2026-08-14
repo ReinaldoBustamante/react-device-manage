@@ -1,16 +1,16 @@
-import { Link, Navigate } from "react-router"
-import { Logo } from "../../../shared/components/Header/Logo"
 import { useEffect } from "react"
+import type { AxiosError } from "axios"
+import { Link, Navigate } from "react-router"
 import { useForm } from "react-hook-form"
-import { loginSchema } from "../schemas/auth"
-import type { LoginForm } from "../types/auth"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
-import { authService } from "../services/authService"
 import { toast } from "react-hot-toast";
 
-import type { AxiosError } from "axios"
+import { Logo } from "../../../shared/components/Header/Logo"
+import { loginSchema } from "../schemas/auth"
+import { authLogin } from "../services/authLogin"
 import { useAuthStore } from "../store/auth"
+import type { LoginForm } from "../types/auth"
 
 
 export const AuthPage = () => {
@@ -34,7 +34,7 @@ export const AuthPage = () => {
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
     const { mutate: loginMutation, isPending: isLogging } = useMutation({
-        mutationFn: (data: LoginForm) => authService().login(data),
+        mutationFn: (data: LoginForm) => authLogin(data),
         onSuccess: (response) => {
             toast.success("Inicio de sesión exitoso");
             login(response.access_token)
