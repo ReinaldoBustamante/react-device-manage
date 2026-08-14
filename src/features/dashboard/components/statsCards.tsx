@@ -11,7 +11,7 @@ export const StatsCards = () => {
         queryFn: getStats,
     })
 
-    return <div className="flex flex-col gap-4">
+    return <div className="grid gap-4 md:grid-cols-2">
         {
             dashboardStats.map(stat => {
                 const value = isLoading || isError || !data ? '-' : String(stat.accessor(data))
