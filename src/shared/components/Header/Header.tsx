@@ -1,19 +1,37 @@
 import { Logo } from "./Logo"
-import { Button } from "../Button"
-import { CiLogin } from "react-icons/ci"
-import { Link, useNavigate } from "react-router"
+import { Link } from "react-router"
 import { useAuthStore } from "../../../features/auth/store/auth"
-import { Navbar } from "./Navbar"
+import { NavLinks } from "../NavLinks"
+import { layoutStyles, navLinks } from "../../constants"
+import { MobileMenu } from "./MobileMenu"
+import { CiLogin, CiLogout } from "react-icons/ci"
+import { useShallow } from 'zustand/react/shallow';
 
 export const Header = () => {
-    const navigate = useNavigate()
-    const { logout } = useAuthStore()
-    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+    const { isAuthenticated, logout } = useAuthStore(
+        useShallow((state) => ({
+            isAuthenticated: state.isAuthenticated,
+            logout: state.logout
+        }))
+    );
+    
+    return <header className={`fixed w-full ${layoutStyles.headerHeight} border-b border-[#D5E0E7] flex items-center justify-between bg-white px-4 `}>
+        <div className="flex gap-4 items-center">
+            <Logo />
+            {isAuthenticated && <NavLinks links={navLinks} className="hidden md:flex gap-2" />}
+        </div>
 
-    return <header className="w-full h-[14vh] border-b border-[#D5E0E7] flex justify-between items-center bg-white px-4">
-        <Logo />
-        <Link to={'/auth'} className="px-4 py-2.5 bg-[#0085B9] text-white rounded-md ">
-            <CiLogin size={24}/>
-        </Link>
+        {
+            isAuthenticated
+                ? <Link to={'/auth'} onClick={logout} className="px-4 py-1.5 text-sm border border-gray-100 rounded-md bg-white font-semibold shadow-sm text-center hidden md:flex gap-2">
+                    <CiLogout size={24} />
+                    <p>Salir</p>
+                </Link>
+                : <Link to={'/auth'} className="px-4 py-1.5 text-sm border border-gray-100 rounded-md bg-white font-semibold shadow-sm text-center flex gap-2 items-center">
+                    <CiLogin size={24} />
+                    <p className="hidden md:inline">Ingresar</p>
+                </Link>
+        }
+        <MobileMenu />
     </header>
 }
