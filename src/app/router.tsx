@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router';
-import { GuessLayout } from '../shared/layouts/GuessLayout';
+import { GuestLayout } from '../shared/layouts/GuestLayout';
 import { DashboardPage } from '../features/dashboard/pages/DashboardPage';
 import { AuthPage } from '../features/auth/pages/AuthPage';
 import { AuthLayout } from '../shared/layouts/AuthLayout';
@@ -12,9 +12,13 @@ import { RegisterPage } from '../features/registers/pages/RegisterPage';
 export const router = createBrowserRouter([
     {
         path: '/',
-        element: <GuessLayout />,
+        element: <GuestLayout />,
         children: [
-            { index: true, element: <DashboardPage /> }
+            { index: true, element: <DashboardPage /> },
+            { path: '/devices', element: <ProtectedRoutes><DevicePage /></ProtectedRoutes>},
+            { path: '/users', element: <ProtectedRoutes><UserPages /></ProtectedRoutes>},
+            { path: '/logs', element: <ProtectedRoutes><RegisterPage /></ProtectedRoutes>},
+            
         ]
     },
     {
@@ -22,33 +26,6 @@ export const router = createBrowserRouter([
         element: <AuthLayout />,
         children: [
             { index: true, element: <AuthPage /> }
-        ]
-    },
-    {
-        path: '/devices',
-        element: <ProtectedRoutes>
-            <GuessLayout />
-        </ProtectedRoutes>,
-        children: [
-            { index: true, element: <DevicePage /> }
-        ]
-    },
-    {
-        path: '/users',
-        element: <ProtectedRoutes>
-            <GuessLayout />
-        </ProtectedRoutes>,
-        children: [
-            { index: true, element: <UserPages /> }
-        ]
-    },
-    {
-        path: '/logs',
-        element: <ProtectedRoutes>
-            <GuessLayout />
-        </ProtectedRoutes>,
-        children: [
-            { index: true, element: <RegisterPage /> }
         ]
     }
 ])
