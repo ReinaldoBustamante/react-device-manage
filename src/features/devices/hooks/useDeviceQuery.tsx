@@ -1,21 +1,23 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import type { Pagination } from "../../../shared/types"
-import { httpClient } from "../../../app/httpClient"
 import { useMediaQuery } from "../../../shared/hooks/useMediaQuery"
-import { useQuery } from "@tanstack/react-query"
+import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import type { Device } from "../types"
+import { getDevice } from "../services/getDevices"
 
 export const useDeviceQuery = () => {
     const [offset, setOffset] = useState(0)
-    const isMobile = useMediaQuery("(max-width: 767px)");
-    const pageSize = isMobile ? 5 : 10;
+    const isMobile = useMediaQuery("(max-width: 768px)");
+    const pageSize = isMobile ? 6 : 10;
+
+    useEffect(() => {
+        setOffset(0)
+    }, [pageSize])
 
     const { data } = useQuery<{ devices: Device[], pagination: Pagination }>({
         queryKey: ['devices', pageSize, offset],
-        queryFn: async () => {
-            const response = await httpClient.get(`/devices/?limit=${pageSize}&offset=${offset}`)
-            return response.data
-        }
+        queryFn: () => getDevice(pageSize, offset),
+        placeholderData: keepPreviousData,
     })
 
 
@@ -24,12 +26,12 @@ export const useDeviceQuery = () => {
     const { limit, total } = pagination
 
     const onNext = () => {
-        if (offset + limit > total) return null
+        if (offset + limit > total) return 
         setOffset(offset + limit)
     }
 
     const onPrev = () => {
-        if (offset - limit < 0) return null
+        if (offset - limit < 0) return 
         setOffset(offset - limit)
     }
 
