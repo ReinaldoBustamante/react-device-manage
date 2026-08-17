@@ -1,9 +1,9 @@
-import type { Device, modalTypes } from "../types";
+import type { Device, ModalTypes } from "../types";
 import { DeviceCard } from "./DeviceCard";
 
 interface DeviceListMobileProps {
     devices: Device[]
-    handleModal: (modal: modalTypes, device: Device) => void
+    handleModal: (modal: ModalTypes, device: Device) => void
 }
 
 export const DeviceListMobile = ({ devices, handleModal }: DeviceListMobileProps) => {
